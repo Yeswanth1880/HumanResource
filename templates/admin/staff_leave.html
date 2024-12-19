@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+
+<main class="container my-4">
+    <h5 class="text-primary mb-4">View Staff Leave</h5>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+            <!-- Displaying Success and Error Messages -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert 
+                        {% if message.tags == 'error' %}alert-danger
+                        {% elif message.tags == 'success' %}alert-success
+                        {% endif %} 
+                        alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <!-- Staff Leave Table -->
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Staff Name</th>
+                            <th>Leave Type</th>
+                            <th>Leave Start Date</th>
+                            <th>Leave End Date</th>
+                            <th>Message</th>
+                            <th>Apply Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in staff_leave %}
+                            <tr>
+                                <td>{{ i.id }}</td>
+                                <td>{{ i.staff_id.admin.first_name }} {{ i.staff_id.admin.last_name }}</td>
+                                <td>{{ i.leave_type }}</td>
+                                <td>{{ i.from_date }}</td>
+                                <td>{{ i.to_date }}</td>
+                                <td>{{ i.message }}</td>
+                                <td>{{ i.created_at }}</td>
+                                <td>
+                                    {% if i.status == 0 %}
+                                        <a href="{% url 'staff_approve_leave' i.id %}" class="btn btn-success btn-sm">Approve</a>
+                                        <a href="{% url 'staff_disapprove_leave' i.id %}" class="btn btn-danger btn-sm">Disapprove</a>
+                                    {% elif i.status == 1 %}
+                                        <span class="badge bg-success">Approved</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">Disapproved</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+
+{% endblock %}

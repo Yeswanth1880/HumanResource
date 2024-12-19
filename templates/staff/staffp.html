@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<main class="mn-inner">
+    <h5 class="blue-text" style="padding: 10px;">Profile</h5>
+    <div class="row">
+        <div class="middle-content col s12 m10 l8"> <!-- Removed offset classes -->
+            
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <div class="card">
+                <div class="card-content">
+                    <div class="table-wrapper">
+                        <table class="striped highlight responsive-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Address</th>
+                                    <th>Salary</th>
+                                    <th>Department</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in staffp %}
+                                    <tr>
+                                        <td>{{ i.id }}</td>
+                                        <td>{{ i.address }}</td>
+                                        <td>{{ i.sal }}</td>
+                                        <td>{{ i.dept }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}
